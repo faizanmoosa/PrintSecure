@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "32501160005",
+    "project_id": "print-4f542",
+    "storage_bucket": "print-4f542.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32501160005:android:aca102069c9d51f4f5ab2c",
+        "android_client_info": {
+          "package_name": "com.faizan.printsecure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32501160005-7nblg8341bq03ervjv5rlf507i356tk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC46QNZlMOq4rAodCQnGzu-pJ_YQYWtI0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32501160005-7nblg8341bq03ervjv5rlf507i356tk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
