@@ -32,8 +32,6 @@ import java.io.File;
 public class CustomerScreen extends AppCompatActivity {
     Button upload;
 
-    private static final int FILE_SELECT_CODE = 1;
-
     private Uri uri;
     private File file;
 
@@ -103,7 +101,6 @@ public class CustomerScreen extends AppCompatActivity {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                    Log.d("myTag", "Upload is " + progress + "% done");
                 }
             });
         }
