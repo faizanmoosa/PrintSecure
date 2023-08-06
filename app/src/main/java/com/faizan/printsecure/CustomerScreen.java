@@ -35,6 +35,8 @@ public class CustomerScreen extends AppCompatActivity {
     private Uri uri;
     private File file;
 
+    private int PICKFILE_RESULT_CODE = 1;
+
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
 
@@ -61,7 +63,17 @@ public class CustomerScreen extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        uri = data.getData();
+
+        if(null != data) {
+            if(null != data.getClipData()) {
+                for(int i = 0; i < data.getClipData().getItemCount(); i++) {
+                    uri = data.getClipData().getItemAt(i).getUri();
+                }
+            } else {
+                uri = data.getData();
+            }
+        }
+
         String path = uri.getPath();
         file = new File(path);
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
