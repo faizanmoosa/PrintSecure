@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -38,5 +39,21 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'org.jmdns:jmdns:3.5.1'
     implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
-    implementation("com.google.firebase:firebase-storage")
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-auth:22.1.1'
+    implementation 'com.google.firebase:firebase-database:20.2.2'
+
+    buildscript {
+        repositories {
+            google()
+            jcenter()
+            maven {
+                url "https://maven.google.com"
+            }
+        }
+    }
 }
+
