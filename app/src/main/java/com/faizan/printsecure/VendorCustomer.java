@@ -77,20 +77,7 @@ public class VendorCustomer extends AppCompatActivity {
                                 Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_SHORT).show();
                             }
                             else if(finalI == totalItems - 1) {
-                                databaseReference.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                            Upload upload = postSnapshot.getValue(Upload.class);
-                                            downloadURLs += upload.getName();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
+                                // Need to add downloadURLs here
                                 Intent intent = new Intent(getApplicationContext(), QrScanner.class);
                                 intent.putExtra("downloads", downloadURLs);
                                 startActivity(intent);
@@ -109,6 +96,7 @@ public class VendorCustomer extends AppCompatActivity {
                 fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Need to add downloadURLs here
                         Intent intent = new Intent(getApplicationContext(), QrScanner.class);
                         intent.putExtra("downloads", downloadURLs);
                         startActivity(intent);
