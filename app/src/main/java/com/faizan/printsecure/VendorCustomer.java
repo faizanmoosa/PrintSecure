@@ -2,16 +2,19 @@ package com.faizan.printsecure;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -22,7 +25,8 @@ import java.io.File;
 public class VendorCustomer extends AppCompatActivity {
     private Button vendor, customer;
     private StorageReference storageReference;
-    private String downloadURLs = "";
+    private String downloadURLs;
+    private Handler myHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,7 @@ public class VendorCustomer extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        downloadURLs = "";
         if (resultCode == RESULT_OK) {
             if (data.getClipData() != null) {
                 int totalItems = data.getClipData().getItemCount();
@@ -67,14 +72,29 @@ public class VendorCustomer extends AppCompatActivity {
                     fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageReference.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    downloadURLs += uri + "\n";
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+
+                                }
+                            });
                             if(finalI == 0) {
-                                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
                             }
                             else if(finalI == totalItems - 1) {
-                                // Need to add downloadURLs here
-                                Intent intent = new Intent(getApplicationContext(), QrScanner.class);
-                                intent.putExtra("downloads", downloadURLs);
-                                startActivity(intent);
+                                myHandler = new Handler();
+                                myHandler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        Intent intent = new Intent(getApplicationContext(), QrScanner.class);
+                                        intent.putExtra("downloads", downloadURLs);
+                                        startActivity(intent);
+                                    }
+                                }, 2000);
                             }
                         }
                     });
@@ -86,14 +106,29 @@ public class VendorCustomer extends AppCompatActivity {
                 String fileName = file.getName();
 
                 StorageReference fileToUpload = storageReference.child(fileName);
-                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
                 fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Need to add downloadURL here
-                        Intent intent = new Intent(getApplicationContext(), QrScanner.class);
-                        intent.putExtra("downloads", downloadURLs);
-                        startActivity(intent);
+                        storageReference.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                downloadURLs += uri + "\n";
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+
+                            }
+                        });
+                        myHandler = new Handler();
+                        myHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent intent = new Intent(getApplicationContext(), QrScanner.class);
+                                intent.putExtra("downloads", downloadURLs);
+                                startActivity(intent);
+                            }
+                        }, 2000);
                     }
                 });
             }
