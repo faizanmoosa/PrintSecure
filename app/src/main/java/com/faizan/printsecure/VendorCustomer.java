@@ -96,7 +96,7 @@ public class VendorCustomer extends AppCompatActivity {
                 fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Need to add downloadURLs here
+                        // Need to add downloadURL here
                         Intent intent = new Intent(getApplicationContext(), QrScanner.class);
                         intent.putExtra("downloads", downloadURLs);
                         startActivity(intent);
