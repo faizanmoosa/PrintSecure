@@ -3,7 +3,6 @@ package com.faizan.printsecure;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -31,15 +30,16 @@ public class VendorCustomer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_customer);
-        vendor = findViewById(R.id.upload);
+        vendor = findViewById(R.id.vendor);
         customer = findViewById(R.id.customer);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        Intent vendorIntent = new Intent(getApplicationContext(), VendorScreen.class);
+        Intent vendorIntent = new Intent(getApplicationContext(), CustomerScreen.class);
         vendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent vendorIntent = new Intent(getApplicationContext(), QrScanner.class);
                 startActivity(vendorIntent);
             }
         });
@@ -56,7 +56,7 @@ public class VendorCustomer extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         downloadURLs = "";
         if (resultCode == RESULT_OK) {
@@ -90,7 +90,7 @@ public class VendorCustomer extends AppCompatActivity {
                                 myHandler = new Handler();
                                 myHandler.postDelayed(new Runnable() {
                                     public void run() {
-                                        Intent intent = new Intent(getApplicationContext(), QrScanner.class);
+                                        Intent intent = new Intent(getApplicationContext(), CustomerScreen.class);
                                         intent.putExtra("downloads", downloadURLs);
                                         startActivity(intent);
                                     }
@@ -124,7 +124,7 @@ public class VendorCustomer extends AppCompatActivity {
                         myHandler = new Handler();
                         myHandler.postDelayed(new Runnable() {
                             public void run() {
-                                Intent intent = new Intent(getApplicationContext(), QrScanner.class);
+                                Intent intent = new Intent(getApplicationContext(), CustomerScreen.class);
                                 intent.putExtra("downloads", downloadURLs);
                                 startActivity(intent);
                             }

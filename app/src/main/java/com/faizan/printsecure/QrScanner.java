@@ -1,16 +1,19 @@
 package com.faizan.printsecure;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
@@ -19,15 +22,18 @@ import java.io.IOException;
 public class QrScanner extends AppCompatActivity {
 
     private SurfaceView surfaceView;
+    private Button button;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private String urlDetected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_scanner);
         surfaceView = findViewById(R.id.surfaceView);
+        button = findViewById(R.id.vendor);
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
@@ -61,6 +67,34 @@ public class QrScanner extends AppCompatActivity {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
                 cameraSource.stop();
+            }
+        });
+        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+            @Override
+            public void release() {
+
+            }
+
+            @Override
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                if(barcodes.size() != 0) {
+                    if(barcodes.valueAt(0).url != null) {
+                        urlDetected = barcodes.valueAt(0).displayValue;
+                        button.setText("Get Documents");
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getApplicationContext(), FilesLayout.class);
+                                intent.putExtra("documents", urlDetected);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
+                else {
+                    button.setText("Scanning...");
+                }
             }
         });
     }

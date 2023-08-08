@@ -16,13 +16,13 @@
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/upload"
+        app:layout_constraintBottom_toTopOf="@+id/vendor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/upload"
+        android:id="@+id/vendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="350sp"
@@ -53,5 +53,5 @@
         app:cornerRadius="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upload" />
+        app:layout_constraintTop_toBottomOf="@+id/vendor" />
 </androidx.constraintlayout.widget.ConstraintLayout>
