@@ -1,23 +1,21 @@
 package com.faizan.printsecure;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class CustomerScreen extends AppCompatActivity {
 
     private String urlDocs;
     private ImageView imageView;
-    private Bitmap bitmap;
-    private QRGEncoder qrgEncoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +25,16 @@ public class CustomerScreen extends AppCompatActivity {
 
         urlDocs = getIntent().getStringExtra("downloads");
 
-        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point point = new Point();
-        display.getSize(point);
-
-        int width = point.x;
-        int height = point.y;
-        int dimen;
-
-        if(width < height) {
-            dimen = height;
+        MultiFormatWriter mWriter = new MultiFormatWriter();
+        try {
+            BitMatrix mMatrix = mWriter.encode(urlDocs, BarcodeFormat.QR_CODE, 400,400);
+            BarcodeEncoder mEncoder = new BarcodeEncoder();
+            Bitmap mBitmap = mEncoder.createBitmap(mMatrix);
+            imageView.setImageBitmap(mBitmap);
         }
-        else {
-            dimen = width;
+        catch (WriterException e) {
+            throw new RuntimeException(e);
         }
-        dimen = dimen * 3 / 4;
-
-        qrgEncoder = new QRGEncoder(urlDocs, null, QRGContents.Type.TEXT, dimen);
-        bitmap = qrgEncoder.getBitmap();
-        imageView.setImageBitmap(bitmap);
     }
 
 }

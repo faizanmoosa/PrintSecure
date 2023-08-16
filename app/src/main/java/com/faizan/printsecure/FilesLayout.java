@@ -1,6 +1,7 @@
 package com.faizan.printsecure;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,18 +17,23 @@ import java.util.StringTokenizer;
 public class FilesLayout extends AppCompatActivity {
 
     private String downloadURLs;
-    private TextView textView;
     private ListView listView;
     private ArrayList<String> filesList;
     private String files[];
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_files_layout);
         listView = findViewById(R.id.listView);
+        toolbar = findViewById(R.id.myToolBar);
+
+        setSupportActionBar(toolbar);
 
         downloadURLs = getIntent().getStringExtra("documents");
+
+        filesList = new ArrayList<String>();
 
         StringTokenizer stringTokenizer = new StringTokenizer(downloadURLs, "\n");
         while (stringTokenizer.hasMoreTokens()) {
@@ -35,6 +41,10 @@ public class FilesLayout extends AppCompatActivity {
         }
 
         files = new String[filesList.size()];
+        for(int i = 0; i < filesList.size(); i++) {
+            files[i] = "Document " + (i + 1);
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, files);
 
         listView.setAdapter(adapter);
@@ -42,10 +52,8 @@ public class FilesLayout extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), DocumentViewer.class);
-                String currentFile = listView.getItemAtPosition(i).toString();
-                intent.putExtra("documents", downloadURLs);
-                intent.putExtra("currentSong", currentFile);
-                intent.putExtra("position", i);
+                String currentFile = filesList.get(i);
+                intent.putExtra("currentFile", currentFile);
                 startActivity(intent);
             }
         });

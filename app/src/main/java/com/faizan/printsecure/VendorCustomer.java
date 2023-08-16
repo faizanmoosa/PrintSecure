@@ -84,7 +84,7 @@ public class VendorCustomer extends AppCompatActivity {
                                 }
                             });
                             if(finalI == 0) {
-                                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
+                                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", 2000).show();
                             }
                             else if(finalI == totalItems - 1) {
                                 myHandler = new Handler();

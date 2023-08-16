@@ -79,15 +79,17 @@ public class QrScanner extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if(barcodes.size() != 0) {
-                    if(barcodes.valueAt(0).url != null) {
+                    if(barcodes.valueAt(0).displayValue != null) {
                         urlDetected = barcodes.valueAt(0).displayValue;
                         button.setText("Get Documents");
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), FilesLayout.class);
-                                intent.putExtra("documents", urlDetected);
-                                startActivity(intent);
+                                if(button.getText() == "Get Documents") {
+                                    Intent intent = new Intent(getApplicationContext(), FilesLayout.class);
+                                    intent.putExtra("documents", urlDetected);
+                                    startActivity(intent);
+                                }
                             }
                         });
                     }
