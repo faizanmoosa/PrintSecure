@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DocumentViewer">
+    tools:context=".DocumentViewer"
+    android:background="@drawable/background">
 
     <include
         layout="@layout/app_toolbar"/>
@@ -16,24 +17,24 @@
 
     <Button
         android:id="@+id/prevPageButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="52sp"
+        android:layout_height="52sp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:drawableTop="@drawable/baseline_arrow_back_24"
-        app:backgroundTint="#595C91"
+        app:backgroundTint="#003049"
         app:cornerRadius="100sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nextPageButton" />
 
     <Button
         android:id="@+id/nextPageButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="52sp"
+        android:layout_height="52sp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:drawableTop="@drawable/baseline_arrow_forward_24"
-        app:backgroundTint="#595C91"
+        app:backgroundTint="#003049"
         app:cornerRadius="100sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

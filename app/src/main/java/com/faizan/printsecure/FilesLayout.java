@@ -4,14 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class FilesLayout extends AppCompatActivity {
@@ -21,6 +31,8 @@ public class FilesLayout extends AppCompatActivity {
     private ArrayList<String> filesList;
     private String files[];
     private Toolbar toolbar;
+    private StorageReference storageReference;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +59,37 @@ public class FilesLayout extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, files);
 
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), DocumentViewer.class);
+
                 String currentFile = filesList.get(i);
-                intent.putExtra("currentFile", currentFile);
-                startActivity(intent);
+
+                storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(currentFile);
+                storageReference.getDownloadUrl()
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                intent.putExtra("currentFile", currentFile);
+                                startActivity(intent);
+
+                                handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        storageReference.delete();
+                                    }
+                                }, 4000);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(Exception e) {
+                                Toast.makeText(FilesLayout.this, "Sorry, can't access again!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }

@@ -5,6 +5,7 @@
     <item
         android:id="@+id/printButton"
         android:icon="@drawable/printer"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:title="Print" />
 
 </menu>

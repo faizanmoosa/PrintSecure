@@ -4,17 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VendorCustomer">
+    tools:context=".VendorCustomer"
+    android:background="@drawable/background">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="52sp"
+        android:layout_height="52sp"
+        android:layout_marginStart="5dp"
+        android:background="@null"
+        android:src="@drawable/baseline_arrow_back_ios_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/inter_semibold"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/san_fransisco_bold"
+        android:shadowColor="@color/black"
         android:text="Who I’m ?"
-        android:textColor="#000000"
-        android:textSize="25sp"
+        android:textColor="#003049"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/vendor"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,15 +35,13 @@
 
     <Button
         android:id="@+id/vendor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:width="350sp"
-        android:height="75sp"
-        android:fontFamily="@font/inter_bold"
+        android:layout_width="280sp"
+        android:layout_height="56sp"
+        android:fontFamily="@font/san_fransisco_bold"
         android:text="Vendor"
         android:textAllCaps="false"
-        android:textSize="25sp"
-        app:backgroundTint="#595C91"
+        android:textSize="18sp"
+        app:backgroundTint="#003049"
         app:cornerRadius="100sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,18 +50,29 @@
 
     <Button
         android:id="@+id/customer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:width="350sp"
-        android:height="75sp"
-        android:fontFamily="@font/inter_bold"
+        android:layout_width="280sp"
+        android:layout_height="56sp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/san_fransisco_bold"
         android:text="Customer"
         android:textAllCaps="false"
-        android:textSize="25sp"
-        app:backgroundTint="#595C91"
+        android:textSize="18sp"
+        app:backgroundTint="#003049"
         app:cornerRadius="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vendor" />
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:progressDrawable="@drawable/focus_border"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vendor" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

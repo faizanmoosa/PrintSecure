@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,12 +28,23 @@ public class VendorCustomer extends AppCompatActivity {
     private StorageReference storageReference;
     private String downloadURLs;
     private Handler myHandler;
+    private ProgressBar loadingProgressBar;
+    private ImageButton imageButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_customer);
         vendor = findViewById(R.id.vendor);
         customer = findViewById(R.id.customer);
+        loadingProgressBar = findViewById(R.id.loadingProgressBar);
+        imageButton = findViewById(R.id.imageButton);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -60,6 +73,8 @@ public class VendorCustomer extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         downloadURLs = "";
         if (resultCode == RESULT_OK) {
+            customer.setVisibility(View.INVISIBLE);
+            loadingProgressBar.setVisibility(View.VISIBLE);
             if (data.getClipData() != null) {
                 int totalItems = data.getClipData().getItemCount();
                 for (int i = 0; i < totalItems; i++) {
@@ -84,12 +99,14 @@ public class VendorCustomer extends AppCompatActivity {
                                 }
                             });
                             if(finalI == 0) {
-                                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", 2000).show();
+                                Toast.makeText(VendorCustomer.this, "Please wait!", Toast.LENGTH_LONG).show();
                             }
                             else if(finalI == totalItems - 1) {
                                 myHandler = new Handler();
                                 myHandler.postDelayed(new Runnable() {
                                     public void run() {
+                                        loadingProgressBar.setVisibility(View.INVISIBLE);
+                                        customer.setVisibility(View.VISIBLE);
                                         Intent intent = new Intent(getApplicationContext(), CustomerScreen.class);
                                         intent.putExtra("downloads", downloadURLs);
                                         startActivity(intent);
@@ -106,7 +123,7 @@ public class VendorCustomer extends AppCompatActivity {
                 String fileName = file.getName();
 
                 StorageReference fileToUpload = storageReference.child(fileName);
-                Toast.makeText(VendorCustomer.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
+                Toast.makeText(VendorCustomer.this, "Please wait!", Toast.LENGTH_SHORT).show();
                 fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -124,6 +141,8 @@ public class VendorCustomer extends AppCompatActivity {
                         myHandler = new Handler();
                         myHandler.postDelayed(new Runnable() {
                             public void run() {
+                                loadingProgressBar.setVisibility(View.INVISIBLE);
+                                customer.setVisibility(View.VISIBLE);
                                 Intent intent = new Intent(getApplicationContext(), CustomerScreen.class);
                                 intent.putExtra("downloads", downloadURLs);
                                 startActivity(intent);

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
@@ -65,6 +66,12 @@ public class DocumentViewer extends AppCompatActivity {
                     currentPage--;
                     loadPDF();
                 }
+                if(currentPage == 0) {
+                    prevPageButton.setVisibility(View.INVISIBLE);
+                }
+                if(currentPage != totalPageCount) {
+                    nextPageButton.setVisibility(View.VISIBLE);
+                }
             }
         });
         nextPageButton.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +80,12 @@ public class DocumentViewer extends AppCompatActivity {
                 if (currentPage < totalPageCount - 1) {
                     currentPage++;
                     loadPDF();
+                }
+                if(currentPage != 0) {
+                    prevPageButton.setVisibility(View.VISIBLE);
+                }
+                if(currentPage == totalPageCount - 1) {
+                    nextPageButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -90,7 +103,9 @@ public class DocumentViewer extends AppCompatActivity {
 
         if (id == R.id.printButton) {
             pdfFilePath = tempFile.getPath();
-            printDocument();
+            Intent intent = new Intent(getApplicationContext(), CustomPrint.class);
+            startActivity(intent);
+            item.setVisible(false);
             return true;
         }
 
@@ -199,6 +214,13 @@ public class DocumentViewer extends AppCompatActivity {
             ParcelFileDescriptor fileDescriptor = getContentResolver().openFileDescriptor(pdfUri, "r");
             PdfRenderer pdfRenderer = new PdfRenderer(fileDescriptor);
             totalPageCount = pdfRenderer.getPageCount();
+
+            if(currentPage == 0) {
+                prevPageButton.setVisibility(View.INVISIBLE);
+            }
+            if(currentPage == totalPageCount - 1) {
+                nextPageButton.setVisibility(View.INVISIBLE);
+            }
 
             PdfRenderer.Page page = pdfRenderer.openPage(currentPage);
             Bitmap bitmap = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
