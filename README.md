@@ -8,18 +8,20 @@ The primary objective is to provide the security by restricting the shop owners 
 # Screenshots
 Here are the screenshots showcasing the UI and flow of my app.
 
-<img src="screenshots/home.jpeg" width="300" alt="Home Screen">
+<img src="screenshots/home.jpeg" width="250" alt="Home Screen">
 
-![Vendor and Customer Buttons](screenshots/vendor_customer.jpeg)
+<img src="screenshots/vendor_customer.jpeg" width="250" alt="Vendor and Customer Buttons">
 
-![Selection of Files by Customer to Share](screenshots/files.jpeg)
+<img src="screenshots/files.jpeg" width="250" alt="Selection of Files by Customer to Share">
 
-![Loading Animation during Storing in Firebase](screenshots/customer_loading.jpeg)
+<img src="screenshots/customer_loading.jpeg" width="250" alt="Loading Animation during Storing in Firebase">
 
-![QR Code for Customer's Selected Files](screenshots/qr_code.jpeg)
+<img src="screenshots/qr_code.jpeg" width="250" alt="QR Code for Customer's Selected Files">
 
-![QR Scanner for Vendor](screenshots/vendor.jpeg)
+<img src="screenshots/vendor.jpeg" width="250" alt="QR Scanner for Vendor">
 
-![Shared Documents by Customers](screenshots/docs.jpeg)
+<img src="screenshots/docs.jpeg" width="250" alt="Shared Documents by Customers">
 
-![Screen showing One Time Access](screenshots/docs_access.jpeg)
+<img src="screenshots/docs_access.jpeg" width="250" alt="Screen showing One Time Access">
+
+<img src="screenshots/doc_viewer.png" width="250" alt="Document Viewing before Printing">
