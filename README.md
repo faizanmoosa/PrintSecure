@@ -23,5 +23,3 @@ Here are the screenshots showcasing the UI and flow of my app.
 ![Shared Documents by Customers](screenshots/docs.jpeg)
 
 ![Screen showing One Time Access](screenshots/docs_access.jpeg)
-
-![Document Viewing Before Printing](screenshots/doc_viewer.png)
