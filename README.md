@@ -8,7 +8,7 @@ The primary objective is to provide the security by restricting the shop owners 
 # Screenshots
 Here are the screenshots showcasing the UI and flow of my app.
 
-![Home Screen](screenshots/home.jpeg)
+<img src="screenshots/home.jpeg" width="300" alt="Home Screen">
 
 ![Vendor and Customer Buttons](screenshots/vendor_customer.jpeg)
 
