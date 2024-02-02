@@ -63,6 +63,7 @@ public class QrScanner extends AppCompatActivity {
                         ActivityCompat.requestPermissions(QrScanner.this, new String[] {
                                 android.Manifest.permission.CAMERA
                         }, REQUEST_CAMERA_PERMISSION);
+                        cameraSource.start(surfaceView.getHolder());
                     }
                 }
                 catch (IOException e) {

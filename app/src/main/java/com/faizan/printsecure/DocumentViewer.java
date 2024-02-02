@@ -10,6 +10,7 @@ import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
@@ -22,6 +23,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,6 +45,7 @@ public class DocumentViewer extends AppCompatActivity {
     private File tempFile;
     private String pdfFilePath;
     private Toolbar toolbar;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class DocumentViewer extends AppCompatActivity {
         pdfImageView = findViewById(R.id.pdfImageView);
         prevPageButton = findViewById(R.id.prevPageButton);
         nextPageButton = findViewById(R.id.nextPageButton);
+        textView = findViewById(R.id.textView3);
 
         setSupportActionBar(toolbar);
 
@@ -72,6 +77,7 @@ public class DocumentViewer extends AppCompatActivity {
                 if(currentPage != totalPageCount) {
                     nextPageButton.setVisibility(View.VISIBLE);
                 }
+                textView.setText((currentPage + 1) + "/" + totalPageCount);
             }
         });
         nextPageButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +93,7 @@ public class DocumentViewer extends AppCompatActivity {
                 if(currentPage == totalPageCount - 1) {
                     nextPageButton.setVisibility(View.INVISIBLE);
                 }
+                textView.setText((currentPage + 1) + "/" + totalPageCount);
             }
         });
     }
@@ -102,9 +109,7 @@ public class DocumentViewer extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.printButton) {
-            pdfFilePath = tempFile.getPath();
-            Intent intent = new Intent(getApplicationContext(), CustomPrint.class);
-            startActivity(intent);
+            printDocument();
             item.setVisible(false);
             return true;
         }
@@ -184,6 +189,7 @@ public class DocumentViewer extends AppCompatActivity {
 
                     InputStream inputStream = connection.getInputStream();
                     tempFile = File.createTempFile("temp", ".pdf", getCacheDir());
+                    pdfFilePath = tempFile.getPath();
 
                     FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
                     byte[] buffer = new byte[1024];
@@ -229,6 +235,8 @@ public class DocumentViewer extends AppCompatActivity {
 
             page.close();
             pdfRenderer.close();
+
+            textView.setText((currentPage + 1) + "/" + totalPageCount);
         }
         catch (IOException e) {
             e.printStackTrace();

@@ -99,7 +99,7 @@ public class VendorCustomer extends AppCompatActivity {
                                 }
                             });
                             if(finalI == 0) {
-                                Toast.makeText(VendorCustomer.this, "Please wait!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(VendorCustomer.this, "Please wait!", Toast.LENGTH_SHORT).show();
                             }
                             else if(finalI == totalItems - 1) {
                                 myHandler = new Handler();
@@ -156,9 +156,7 @@ public class VendorCustomer extends AppCompatActivity {
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                    Intent data = result.getData();
-                }
+
             }
     );
 }

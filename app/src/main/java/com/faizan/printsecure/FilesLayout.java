@@ -81,7 +81,7 @@ public class FilesLayout extends AppCompatActivity {
                                     public void run() {
                                         storageReference.delete();
                                     }
-                                }, 4000);
+                                }, 5000);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
